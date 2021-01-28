@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
@@ -33,6 +34,7 @@ $routes($app);
 
 //set the middleware in the application
 $middleware = require __DIR__ . '/../app/middleware.php';
+$middleware($app);
 
 //todo: create display error details, request object, error handler, shutdown handler
 
