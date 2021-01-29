@@ -1,8 +1,12 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Handlers\HttpErrorHandler;
+use App\Application\Handlers\ShutdownHandler;
+use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
+use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\ResponseEmitter;
 
 //import autoloader
@@ -24,9 +28,9 @@ $container = $containerBuilder->build();
 
 //put container into the slim application
 AppFactory::setContainer($container);
-
 //create slim application
 $app = AppFactory::create();
+$callableResolver = $app->getCallableResolver();
 
 //set the routes in the application
 $routes = require __DIR__ . '/../app/routes.php';
@@ -36,11 +40,27 @@ $routes($app);
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 
-//todo: create display error details, request object, error handler, shutdown handler
+//todo: request object, error handler, shutdown handler
+//set display error details
+$displayErrorDetails = $container->get(SettingsInterface::class)->get('displayErrorDetails');
+
+//create request object
+$serverRequestCreator = ServerRequestCreatorFactory::create();
+$request = $serverRequestCreator->createServerRequestFromGlobals();
+
+//create error handler
+$responseFactory = $app->getResponseFactory();
+//todo: make httpErrorHandler
+$errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
+
+//create shutdown handler
+$shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
+register_shutdown_function($shutdownHandler);
 
 $app->addRoutingMiddleware();
 
-//todo: error middleware
+$errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
+$errorMiddleware->setDefaultErrorHandler($errorHandler);
 
 //run the application
 $response = $app->handle($request);
