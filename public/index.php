@@ -40,7 +40,6 @@ $routes($app);
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 
-//todo: request object, error handler, shutdown handler
 //set display error details
 $displayErrorDetails = $container->get(SettingsInterface::class)->get('displayErrorDetails');
 
@@ -50,7 +49,6 @@ $request = $serverRequestCreator->createServerRequestFromGlobals();
 
 //create error handler
 $responseFactory = $app->getResponseFactory();
-//todo: make httpErrorHandler
 $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 
 //create shutdown handler
