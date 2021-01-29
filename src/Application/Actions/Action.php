@@ -9,16 +9,18 @@ use Slim\Exception\HttpBadRequestException;
 
 abstract class Action
 {
-    protected $request;
-    protected $response;
-    protected $args;
+    protected ServerRequestInterface $request;
+    protected ResponseInterface $response;
+    protected array $args;
 
     //when this class is triggered get the input via dependency injection
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $this->request = $request;
         $this->response = $response;
         $this->args = $args;
+
+        return $this->action();
     }
 
     //needs to be implemented
@@ -45,15 +47,14 @@ abstract class Action
         return $this->args[$name];
     }
 
-    //send response with data
+    //prepare data for response
     protected function respondWithData($data = null, int $statusCode = 200): ResponseInterface
     {
         $payload = new ActionPayload($statusCode, $data);
-
         return $this->respond($payload);
     }
 
-    //send a response and write it on the page directly
+    //respond the data on the page
     protected function respond(ActionPayload $payload): ResponseInterface
     {
         $json = json_encode($payload, JSON_PRETTY_PRINT);

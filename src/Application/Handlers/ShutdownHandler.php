@@ -9,9 +9,9 @@ use Slim\Exception\HttpInternalServerErrorException;
 
 class ShutdownHandler
 {
-    private $request;
-    private $errorHandler;
-    private $displayErrorDetails;
+    private ServerRequestInterface $request;
+    private HttpErrorHandler $errorHandler;
+    private bool $displayErrorDetails;
 
     public function __construct(
         ServerRequestInterface $request,
@@ -37,6 +37,11 @@ class ShutdownHandler
 
             if ($this->displayErrorDetails) {
                 switch ($errorType) {
+                    case E_USER_ERROR:
+                        $message = "FATAL ERROR: {$errorMessage}. ";
+                        $message .= " on line {$errorLine} in file {$errorFile}.";
+                        break;
+
                     case E_USER_WARNING:
                         $message = "WARNING: {$errorMessage}";
                         break;
@@ -46,10 +51,8 @@ class ShutdownHandler
                         break;
 
                     default:
-                        $message = <<<MSG
-                        FATAL ERROR: {$errorMessage}. 
-                        on line {$errorLine} in file {$errorFile}.
-                        MSG;
+                        $message = "ERROR: {$errorMessage}";
+                        $message .= " on line {$errorLine} in file {$errorFile}.";
                         break;
                 }
             }

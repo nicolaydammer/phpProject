@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use App\Application\Actions\ExcelSheetToWebPageConverter\ExcelSheetToWebPageConverter;
+use App\Application\Actions\ExcelSheetToWebPageConverter\UploadExcelSheet;
 use Slim\App;
 
 //return when called on the file
 return function (App $app) {
-    $app->get('/', function (RequestInterface $request, ResponseInterface $response)
-    {
-       //todo: add class with the response data
-    });
+    //get homepage of the converter
+    $app->get('/', UploadExcelSheet::class);
+    //post upload the excel sheet and convert it to web page
+    $app->post('/', ExcelSheetToWebPageConverter::class);
 };

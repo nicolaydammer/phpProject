@@ -13,6 +13,7 @@ class Settings implements SettingsInterface
         $this->settings = $settings;
     }
 
+    //get setting by key name
     public function get(string $key = '')
     {
         return (empty($key)) ? $this->settings : $this->settings[$key];

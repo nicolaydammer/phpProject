@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 use App\Application\Handlers\HttpErrorHandler;
 use App\Application\Handlers\ShutdownHandler;
+use App\Application\ResponseEmitter\ResponseEmitter;
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
-use Slim\ResponseEmitter;
 
 //import autoloader
 require __DIR__ . '/../vendor/autoload.php';
@@ -32,13 +32,13 @@ AppFactory::setContainer($container);
 $app = AppFactory::create();
 $callableResolver = $app->getCallableResolver();
 
-//set the routes in the application
-$routes = require __DIR__ . '/../app/routes.php';
-$routes($app);
-
 //set the middleware in the application
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
+
+//set the routes in the application
+$routes = require __DIR__ . '/../app/routes.php';
+$routes($app);
 
 //set display error details
 $displayErrorDetails = $container->get(SettingsInterface::class)->get('displayErrorDetails');
@@ -47,16 +47,17 @@ $displayErrorDetails = $container->get(SettingsInterface::class)->get('displayEr
 $serverRequestCreator = ServerRequestCreatorFactory::create();
 $request = $serverRequestCreator->createServerRequestFromGlobals();
 
-//create error handler
+//set error handler
 $responseFactory = $app->getResponseFactory();
 $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 
-//create shutdown handler
+//set shutdown handler
 $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
 register_shutdown_function($shutdownHandler);
 
 $app->addRoutingMiddleware();
 
+//set error handling for middleware
 $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
 $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
