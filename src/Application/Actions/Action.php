@@ -57,11 +57,8 @@ abstract class Action
     //respond the data on the page
     protected function respond(ActionPayload $payload): ResponseInterface
     {
-        $json = json_encode($payload, JSON_PRETTY_PRINT);
-        $this->response->getBody()->write($json);
-
         return $this->response
-            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Content-Type', 'text/html')
             ->withStatus($payload->getStatusCode());
     }
 }
