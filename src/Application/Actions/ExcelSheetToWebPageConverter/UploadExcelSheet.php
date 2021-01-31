@@ -19,6 +19,8 @@ class UploadExcelSheet extends Action
 
     protected function action(): ResponseInterface
     {
+        //todo: extra features: use caching to get access to earlier uploaded files in the same session via a list
+
         //create render with twig
         $render = $this->twig->render($this->response,'ExcelSheetToWebPageConverter/excelUpload.twig', []);
         return $this->respondWithData($render);

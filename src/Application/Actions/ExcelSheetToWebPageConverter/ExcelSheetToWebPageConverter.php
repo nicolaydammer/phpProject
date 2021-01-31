@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Actions\ExcelSheetToWebPageConverter;
 
 use App\Application\Actions\Action;
+use InvalidArgumentException;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Views\Twig;
@@ -20,6 +21,8 @@ class ExcelSheetToWebPageConverter extends Action
 
     protected function action(): ResponseInterface
     {
+        //todo: more features like showing urls, pictures, proper layout and maybe a self made editor to also write the file
+
         //get the temporary excel sheet name where the file is saved
         $fileName = $_FILES['excelSheet']['tmp_name'];
 
@@ -52,7 +55,7 @@ class ExcelSheetToWebPageConverter extends Action
                     $sheetDataArray[$name][] = $cells;
                 }
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             //todo: not working, excel code doing its own thing
             return $this->respondWithData(['error' => 'Something went wrong when processing your file']);
         }
