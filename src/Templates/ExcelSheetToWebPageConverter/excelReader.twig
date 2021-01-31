@@ -29,8 +29,10 @@
     </table>
     {% endfor %}
 
+    {# buttons for navigating to other sheets #}
     <div class="btn-group fixed-bottom" role="group">
         {% for name in sheetNames %}
+            {# first one needs to be active #}
             {% if loop.index0 > 0 %}
                 <button class="sheetBtn" value="{{ name }}">{{ name }}</button>
             {% else %}
@@ -40,15 +42,21 @@
     </div>
 
     <script>
+        //working of the buttons
         $('.sheetBtn').on('click', function (e) {
+            //when the clicked button is not active
             if (this.id !== 'active') {
+                //select the current active button/sheet
                 let currentActiveSheet = $('button#active.sheetBtn');
-                console.log(currentActiveSheet.val());
+                //toggle the current button to make it invisible
                 $('.' + currentActiveSheet.val()).toggle();
+                //remove the id from current active button
                 currentActiveSheet.removeAttr('id');
+                //apply the active to the new active button
                 this.id = 'active';
-                console.log(this.value);
+                //toggle the new sheet to be visible
                 $('.' + this.value).toggle();
             }
         })
     </script>
+{# this is not a real error, it is only because there are 2 table tags and only one close tag because its loaded diffrently. #}

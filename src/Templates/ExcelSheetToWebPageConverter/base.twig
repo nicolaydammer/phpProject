@@ -1,22 +1,29 @@
+{# standard html opening #}
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Excel converter</title>
+    {# link to bootstrap css #}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    {# put plain text from a javascript file into a script tag todo: needs improvement #}
     <script>{{ source('ExcelSheetToWebPageConverter/js/jQuery.js') }}</script>
+    {# bootstrap js link #}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
             crossorigin="anonymous"></script>
+    {# style for entire page todo: needs improvement #}
     <style>
-        tr, td, th{
+        tr, td, th {
             border: 1px #d4d4d4 solid;
             padding-right: 15px;
         }
     </style>
 </head>
+{# the body has inline styling todo: needs improvement #}
 <body style="background-color: #303030">
+{# load the upload block from excelUpload.twig #}
 {% block upload %}
 {% endblock %}
 </body>

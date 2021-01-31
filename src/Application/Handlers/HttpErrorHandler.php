@@ -20,6 +20,7 @@ class HttpErrorHandler extends ErrorHandler
 {
     protected function respond(): ResponseInterface
     {
+        //set default exception
         $exception = $this->exception;
         //set default response
         $statusCode = 500;

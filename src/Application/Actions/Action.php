@@ -27,6 +27,7 @@ abstract class Action
     abstract protected function action(): ResponseInterface;
 
     //get data from forms
+    // note: doesn't work for files
     protected function getFormData()
     {
         $input = json_decode(file_get_contents('php://input'));

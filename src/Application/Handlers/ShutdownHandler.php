@@ -28,6 +28,7 @@ class ShutdownHandler
         //get latest error
         $error = error_get_last();
 
+        //when there is a error when exiting the script
         if ($error) {
             $errorFile = $error['file'];
             $errorLine = $error['line'];
@@ -35,7 +36,9 @@ class ShutdownHandler
             $errorType = $error['type'];
             $message = 'An error occurred while trying to process your request.';
 
+            //needs to be enabled in the settings
             if ($this->displayErrorDetails) {
+                //go through the error types to set a certain message
                 switch ($errorType) {
                     case E_USER_ERROR:
                         $message = "FATAL ERROR: {$errorMessage}. ";
@@ -56,9 +59,11 @@ class ShutdownHandler
                         break;
                 }
             }
+            //create the exception
             $exception = new HttpInternalServerErrorException($this->request, $message);
             $response = $this->errorHandler->__invoke($this->request, $exception, $this->displayErrorDetails, false, false);
 
+            //send the error to the browser
             $responseEmitter = new ResponseEmitter();
             $responseEmitter->emit($response);
         }
