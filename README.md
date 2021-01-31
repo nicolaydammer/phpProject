@@ -1,7 +1,8 @@
-Om dit project te gebruiken:
+voor dit project ben ik alle code lijn voor lijn voorbij gegaan
 
+Get all the dependencies:
 composer install
 
-lokale php server gebruiken:
-
+use local php server:
 php -S localhost:8080
+
