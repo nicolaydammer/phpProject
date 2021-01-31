@@ -20,6 +20,7 @@ class HttpErrorHandler extends ErrorHandler
 {
     protected function respond(): ResponseInterface
     {
+        //set default exception
         $exception = $this->exception;
         //set default response
         $statusCode = 500;
@@ -28,7 +29,7 @@ class HttpErrorHandler extends ErrorHandler
             'An internal error has occurred while processing your request.'
         );
 
-        //when a exception is instance of HttpException, set the right error type
+        //when a exception is instance of HttpException, set the right statuscode, description and type of error
         if ($exception instanceof HttpException) {
             $statusCode = $exception->getCode();
             $error->setDescription($exception->getMessage());

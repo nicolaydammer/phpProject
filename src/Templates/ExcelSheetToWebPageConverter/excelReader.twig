@@ -1,0 +1,62 @@
+{# loop into sheet #}
+{% for sheetName, data in sheetData %}
+    {# if it is the first table to be generated don't hide it #}
+    {% if loop.index0 > 0 %}
+        {# give the table name based on the index of the sheet in sheetnames #}
+<table class="table-dark {{ sheetName }}" style="display: none; margin-bottom: 40px;">
+    {% else %}
+    <table class="table-dark {{ sheetName }}">
+        {% endif %}
+        <tr>
+            {# first place is always empty #}
+            <th></th>
+            {# generate letters based on amount of columns #}
+            {% for i in 0..data[0]|length - 1 %}
+                <th>{{ range('A','Z')[loop.index0] }}</th>
+            {% endfor %}
+        </tr>
+        {# for loop through the rows #}
+        {% for key, row in data %}
+            <tr>
+                {# the row count starts on 0 so add 1 to get a normal row count #}
+                <td>{{ key + 1 }}</td>
+                {# loop through the data of a row and display the value of a row #}
+                {% for value in row %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+
+    {# buttons for navigating to other sheets #}
+    <div class="btn-group fixed-bottom" role="group">
+        {% for name in sheetNames %}
+            {# first one needs to be active #}
+            {% if loop.index0 > 0 %}
+                <button class="sheetBtn" value="{{ name }}">{{ name }}</button>
+            {% else %}
+                <button id='active' class="sheetBtn" value="{{ name }}">{{ name }}</button>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <script>
+        //working of the buttons
+        $('.sheetBtn').on('click', function (e) {
+            //when the clicked button is not active
+            if (this.id !== 'active') {
+                //select the current active button/sheet
+                let currentActiveSheet = $('button#active.sheetBtn');
+                //toggle the current button to make it invisible
+                $('.' + currentActiveSheet.val()).toggle();
+                //remove the id from current active button
+                currentActiveSheet.removeAttr('id');
+                //apply the active to the new active button
+                this.id = 'active';
+                //toggle the new sheet to be visible
+                $('.' + this.value).toggle();
+            }
+        })
+    </script>
+{# this is not a real error, it is only because there are 2 table tags and only one close tag because its loaded diffrently. #}

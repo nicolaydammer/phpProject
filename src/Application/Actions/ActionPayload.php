@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Application\Actions;
 
-class ActionPayload implements \JsonSerializable
+use JsonSerializable;
+
+class ActionPayload implements JsonSerializable
 {
     private $statusCode;
     private $data;
@@ -33,6 +35,14 @@ class ActionPayload implements \JsonSerializable
     public function getError(): ?ActionError
     {
         return $this->error;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
     }
 
     public function jsonSerialize()
