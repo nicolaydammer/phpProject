@@ -9,7 +9,9 @@ use Slim\Views\Twig;
 
 class UploadExcelSheet extends Action
 {
-    private $twig;
+    private Twig $twig;
+
+    //inject twig
     public function __construct(Twig $twig)
     {
         $this->twig = $twig;
@@ -17,7 +19,8 @@ class UploadExcelSheet extends Action
 
     protected function action(): ResponseInterface
     {
-        $render = $this->twig->render($this->response,'ExcelSheetToWebPageConverter/test.twig', []);
+        //create render with twig
+        $render = $this->twig->render($this->response,'ExcelSheetToWebPageConverter/excelUpload.twig', []);
         return $this->respondWithData($render);
     }
 }

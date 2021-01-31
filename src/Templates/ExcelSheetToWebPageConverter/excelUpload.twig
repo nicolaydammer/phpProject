@@ -1,0 +1,22 @@
+{% extends 'ExcelSheetToWebPageConverter/base.twig' %}
+
+{% block upload %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <form id="excelSheetUploadForm" method="post" enctype="multipart/form-data"
+                  class="col-md-4 position-absolute top-50 start-50 translate-middle">
+                <h3 style="color: lightgray">Convert excel sheet to web page</h3>
+                <div class="mb-3">
+                    <input type="file" id="excelSheet" class="form-control" aria-label="excel sheet" required>
+                    <div class="invalid-feedback">Please use a valid excel sheet!</div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit">Convert</button>
+                </div>
+            </form>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+    <script>{{ source('ExcelSheetToWebPageConverter/js/script.js') }}</script>
+{% endblock %}

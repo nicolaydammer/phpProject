@@ -18,6 +18,7 @@ return function (ContainerBuilder $containerBuilder) {
                         // Should be set to true in production
                         'cache_enabled' => false,
                         'cache_path' => __DIR__ . '/../tmp/twig',
+                        'debug' => true,
                     ],
                 ],
             ]);

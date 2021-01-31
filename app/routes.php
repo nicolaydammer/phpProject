@@ -9,6 +9,6 @@ use Slim\App;
 return function (App $app) {
     //get homepage of the converter
     $app->get('/', UploadExcelSheet::class);
-    //post upload the excel sheet and convert it to web page
+    //upload the excel sheet and convert it to web page
     $app->post('/', ExcelSheetToWebPageConverter::class);
 };

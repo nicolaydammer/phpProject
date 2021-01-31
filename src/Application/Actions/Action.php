@@ -58,7 +58,6 @@ abstract class Action
     protected function respond(ActionPayload $payload): ResponseInterface
     {
         return $this->response
-            ->withHeader('Content-Type', 'text/html')
             ->withStatus($payload->getStatusCode());
     }
 }
