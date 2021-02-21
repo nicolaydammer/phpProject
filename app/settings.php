@@ -35,16 +35,16 @@ return function (ContainerBuilder $containerBuilder) {
                     'cache_dir' => __DIR__ . '/../cache/doctrine',
 
                     // you should add any other path containing annotated entity classes
-                    'metadata_dirs' => ['/src/Domain'],
+                    'metadata_dirs' => [__DIR__ . '/../src/Domain'],
 
                     // Database connection details
                     'connection' => [
                         'driver' => 'pdo_mysql',
-                        'host' => 'localhost',
-                        'port' => 3306,
-                        'dbname' => 'mydb',
-                        'user' => 'user',
-                        'password' => 'secret',
+                        'host' => getenv('HOST'),
+                        'port' => getenv('PORT'),
+                        'dbname' => getenv('DBNAME'),
+                        'user' => getenv('USER'),
+                        'password' => getenv('PASSWORD'),
                         'charset' => 'utf-8'
                     ]
                 ],
