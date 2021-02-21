@@ -26,6 +26,28 @@ return function (ContainerBuilder $containerBuilder) {
                         'debug' => true,
                     ],
                 ],
+                'doctrine' => [
+                    // if true, metadata caching is forcefully disabled
+                    'dev_mode' => true,
+
+                    // path where the compiled metadata info will be cached
+                    // make sure the path exists and it is writable
+                    'cache_dir' => __DIR__ . '../cache/doctrine',
+
+                    // you should add any other path containing annotated entity classes
+                    'metadata_dirs' => ['/src/Domain'],
+
+                    // Database connection details
+                    'connection' => [
+                        'driver' => 'pdo_mysql',
+                        'host' => 'localhost',
+                        'port' => 3306,
+                        'dbname' => 'mydb',
+                        'user' => 'user',
+                        'password' => 'secret',
+                        'charset' => 'utf-8'
+                    ]
+                ],
             ]);
         }
     ]);
