@@ -32,7 +32,7 @@ return function (ContainerBuilder $containerBuilder) {
 
                     // path where the compiled metadata info will be cached
                     // make sure the path exists and it is writable
-                    'cache_dir' => __DIR__ . '../cache/doctrine',
+                    'cache_dir' => __DIR__ . '/../cache/doctrine',
 
                     // you should add any other path containing annotated entity classes
                     'metadata_dirs' => ['/src/Domain'],
